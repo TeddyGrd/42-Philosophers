@@ -6,15 +6,22 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:36:23 by tguerran          #+#    #+#             */
-/*   Updated: 2024/06/07 17:22:47 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/06/10 21:40:17 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+long long current_time_in_ms(void)
+{
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    return (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
+}
+
 void *philosopher_routine(void *arg)
 {
-    t_philosophers *philosopher = (t_philosophers *)arg;
+    t_philosopher *philosopher = (t_philosopher *)arg;
 
     while (1)
     {
@@ -29,7 +36,7 @@ void *philosopher_routine(void *arg)
 
         // Manger
         printf("%d is eating\n", philosopher->id);
-        usleep(1000);  // Simuler le temps de manger
+        usleep(philosopher->data->time_to_eat);
 
         // Reposer les fourchettes
         pthread_mutex_unlock(philosopher->right_fork);
@@ -37,7 +44,13 @@ void *philosopher_routine(void *arg)
 
         // Dormir
         printf("%d is sleeping\n", philosopher->id);
-        usleep(1000);  // Simuler le temps de dormir
+        usleep(philosopher->data->time_to_sleep);
+
+        if(current_time_in_ms() - philosopher->last_meal_time > philosopher->data->time_to_die)
+        {
+            printf("%d died \n",philosopher->id);
+            break;
+        }
     }
 
     return NULL;
@@ -45,15 +58,20 @@ void *philosopher_routine(void *arg)
 
 void start_simulation(t_data *data)
 {
-    for (int i = 0; i < data->number_of_philosophers; i++)
+    int	i;
+
+	i = 0;
+    while (i < data->number_of_philosophers)
     {
         pthread_create(&data->philosophers[i].thread, NULL, philosopher_routine, &data->philosophers[i]);
-    }
-
-    for (int i = 0; i < data->number_of_philosophers; i++)
+		i++;
+	}
+	i = 0;
+    while (i < data->number_of_philosophers)
     {
         pthread_join(data->philosophers[i].thread, NULL);
-    }
+		i++;
+	}
 }
 
 
@@ -63,8 +81,8 @@ int main(int argc, char *argv[])
 	int		i;
 	if (argc < 5)
 		return (1);
-	//if (check_error(argc, argv) == 1)
-	//	return (1);
+	if (check_error(argc, argv) == 1)
+		return (1);
 	i = 0;
 	init_data(&data, argc, argv);
 	init_philosophers(&data);

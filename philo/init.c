@@ -6,7 +6,7 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:33:09 by tguerran          #+#    #+#             */
-/*   Updated: 2024/06/07 17:25:53 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/06/10 19:40:31 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,14 @@ void	init_philosophers(t_data *data)
 	int i;
 
 	i = 0;
-	data->philosophers = malloc(sizeof(t_philosophers) * data->number_of_philosophers);
+	data->philosophers = malloc(sizeof(t_philosopher) * data->number_of_philosophers);
 	while(i < data->number_of_philosophers)
 	{
-		data->philosophers[i].id = i;
+		data->philosophers[i].id = i +1;
 		data->philosophers[i].left_fork = &data->forks[i];
 		data->philosophers[i].right_fork = &data->forks[(i +1) % data->number_of_philosophers];
+		data->philosophers[i].last_meal_time = current_time_in_ms();
+		data->philosophers[i].data = data;
 		i++;
 	}
-
 }
