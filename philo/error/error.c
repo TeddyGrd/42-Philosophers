@@ -6,27 +6,11 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:11:25 by tguerran          #+#    #+#             */
-/*   Updated: 2024/06/10 21:36:49 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/06/11 17:11:55 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
-
-int	f_space(char **argv)
-{
-	int	i;
-
-	i = 0;
-	while (argv[1][i] != ' ' || argv[1][i] != '\0')
-	{
-		if (argv[1][i] == '\0')
-			return (1);
-		if (argv[1][i] != ' ')
-			break ;
-		i++;
-	}
-	return (0);
-}
+#include "../philo.h"
 
 int	is_an_int(const char *argv)
 {
@@ -74,6 +58,16 @@ int	number_error(char *argv[], int i)
 	return (1);
 }
 
+
+int error_test(char *argv[])
+{
+	if (ft_atoi(argv[1]) > 200)
+		return (1);
+	if (ft_atoi(argv[2]) < 60 || ft_atoi(argv[3]) < 60 || ft_atoi(argv[4]) < 60)
+		return (1);
+	return (0);
+}
+
 int	check_error(int argc, char *argv[])
 {
 	int		i;
@@ -81,6 +75,8 @@ int	check_error(int argc, char *argv[])
 
 	i = 0;
 	if (f_space(argv) == 1)
+		return (1);
+	if(error_test(argv) == 1)
 		return (1);
 	numbers = parse_arguments(&argc, argv);
 	while (i < argc)

@@ -6,11 +6,11 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 19:55:56 by tguerran          #+#    #+#             */
-/*   Updated: 2024/06/10 21:23:23 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/06/11 13:58:22 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo.h"
 
 char	*ft_strdup(const char *s)
 {

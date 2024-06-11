@@ -6,11 +6,11 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 21:24:59 by tguerran          #+#    #+#             */
-/*   Updated: 2024/06/10 21:25:50 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/06/11 13:58:25 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo.h"
 
 char	*ft_strchr(const char *s, int c)
 {

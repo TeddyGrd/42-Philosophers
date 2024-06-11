@@ -6,11 +6,11 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:22:12 by tguerran          #+#    #+#             */
-/*   Updated: 2024/06/10 21:33:42 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/06/11 13:58:17 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo.h"
 
 int	ft_atoi(const char *nptr)
 {

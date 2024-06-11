@@ -6,7 +6,7 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:36:08 by tguerran          #+#    #+#             */
-/*   Updated: 2024/06/10 21:42:36 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/06/11 17:35:38 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ struct s_philosopher
 	pthread_mutex_t		*left_fork;
 	pthread_mutex_t		*right_fork;
 	long long			last_meal_time;
+	int					meals_eaten;
 	t_data				*data;
 };
 
@@ -40,8 +41,13 @@ struct s_data
 	int	time_to_die;
 	int time_to_eat;
 	int	time_to_sleep;
+	int number_of_times_each_philosopher_must_eat;
 	t_philosopher *philosophers;
 	pthread_mutex_t	*forks;
+	pthread_mutex_t meal_check_mutex;
+	long long start_time;
+	int simulation_running;
+	int		death_count;
 };
 
 int			check_error(int argc, char *argv[]);
@@ -50,6 +56,7 @@ void		init_philosophers(t_data *data);
 int			ft_atoi(const char *nptr);
 long long 	current_time_in_ms(void);
 int			check_error(int argc, char *argv[]);
+int			f_space(char **argv);
 size_t		ft_strlen(const char *s);
 int			ft_isdigit(int c);
 long long	ft_strtoll(const char *nptr, char **endptr);
