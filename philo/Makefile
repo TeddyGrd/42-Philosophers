@@ -6,11 +6,11 @@
 #    By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/27 14:40:02 by tguerran          #+#    #+#              #
-#    Updated: 2024/06/11 13:57:32 by tguerran         ###   ########.fr        #
+#    Updated: 2024/06/12 15:26:56 by tguerran         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = Philosophers
+NAME = philo
 
 CC = cc
 CFLAGS = -Wall -Werror -Wextra 

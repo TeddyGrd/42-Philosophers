@@ -6,7 +6,7 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:36:23 by tguerran          #+#    #+#             */
-/*   Updated: 2024/06/11 19:34:01 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/06/12 17:04:08 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@ void print_state(t_philosopher *philosopher, const char *state)
     printf("%lld %d %s\n", timestamp, philosopher->id, state);
 }
 
+void dead_philo(t_philosopher *philosopher, const char *state)
+{
+    long long timestamp = current_time_in_ms() - philosopher->data->start_time;
+    printf("%lld philo %d %s\n", timestamp, philosopher->id, state);
+}
+
 void *philosopher_routine(void *arg)
 {
     t_philosopher *philosopher = (t_philosopher *)arg;
@@ -34,7 +40,7 @@ void *philosopher_routine(void *arg)
     {
         pthread_mutex_lock(philosopher->left_fork);
         print_state(philosopher, "has taken a fork");
-        usleep(data->time_to_die);
+        usleep(data->time_to_die * 1000);
         print_state(philosopher, "died");
         pthread_mutex_unlock(philosopher->left_fork);
         data->simulation_running = 0;
@@ -55,7 +61,7 @@ void *philosopher_routine(void *arg)
         // Manger
         philosopher->last_meal_time = current_time_in_ms();
         print_state(philosopher, "is eating");
-        usleep(data->time_to_eat);
+        usleep(data->time_to_eat * 1000);
         philosopher->meals_eaten++;
 
         pthread_mutex_unlock(philosopher->right_fork);
@@ -67,10 +73,9 @@ void *philosopher_routine(void *arg)
             data->simulation_running = 0;
             break;
         }
-
         // Dormir
         print_state(philosopher, "is sleeping");
-        usleep(data->time_to_sleep);
+        usleep(data->time_to_sleep * 1000);
 
         // Vérifier s'il meurt de faim
         pthread_mutex_lock(&data->meal_check_mutex);
@@ -78,32 +83,40 @@ void *philosopher_routine(void *arg)
         {
             data->simulation_running = 0;
             print_state(philosopher, "died");
+			dead_philo(philosopher, "is dead");
             data->death_count++;
+			return NULL ;
         }
         pthread_mutex_unlock(&data->meal_check_mutex);
     }
-
     return NULL;
 }
 
 void start_simulation(t_data *data)
 {
     int	i;
-
 	i = 0;
     while (i < data->number_of_philosophers)
     {
+		if(data->death_count > 0)
+			return;
         pthread_create(&data->philosophers[i].thread, NULL, philosopher_routine, &data->philosophers[i]);
+		if(data->death_count > 0)
+			return;
 		i++;
 	}
 	i = 0;
+
     while (i < data->number_of_philosophers)
     {
+		if(data->death_count > 0)
+			return;
         pthread_join(data->philosophers[i].thread, NULL);
+		if(data->death_count > 0)
+			return;
 		i++;
 	}
 }
-
 
 int main(int argc, char *argv[])
 {
@@ -117,9 +130,9 @@ int main(int argc, char *argv[])
 	init_data(&data, argc, argv);
 	init_philosophers(&data);
 	start_simulation(&data);
-    if (data.death_count > 1)
+    if (data.death_count >= 1)
     {
-        printf(" %d mort\n",data.death_count);
+        printf(" %d  mort\n",data.death_count);
         return 1;
     }
 	while(i < data.number_of_philosophers)
