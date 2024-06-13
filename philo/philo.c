@@ -6,7 +6,7 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:36:23 by tguerran          #+#    #+#             */
-/*   Updated: 2024/06/12 17:04:08 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/06/13 17:26:01 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,21 @@ void *philosopher_routine(void *arg)
         usleep(data->time_to_die * 1000);
         print_state(philosopher, "died");
         pthread_mutex_unlock(philosopher->left_fork);
+        pthread_mutex_lock(&data->simulation_mutex);
         data->simulation_running = 0;
+        pthread_mutex_unlock(&data->simulation_mutex);
         return NULL;
     }
 
     while (data->simulation_running)
     {
+        pthread_mutex_lock(&data->simulation_mutex);
+        if(!data->simulation_running)
+        {
+            pthread_mutex_unlock(&data->simulation_mutex);
+            break;
+        }
+        pthread_mutex_unlock(&data->simulation_mutex);
         // Penser
         print_state(philosopher, "is thinking");
 
@@ -70,7 +79,9 @@ void *philosopher_routine(void *arg)
         if (data->number_of_times_each_philosopher_must_eat != -1 &&
             philosopher->meals_eaten >= data->number_of_times_each_philosopher_must_eat)
         {
+            pthread_mutex_lock(&data->simulation_mutex);
             data->simulation_running = 0;
+            pthread_mutex_unlock(&data->simulation_mutex);
             break;
         }
         // Dormir
@@ -85,6 +96,7 @@ void *philosopher_routine(void *arg)
             print_state(philosopher, "died");
 			dead_philo(philosopher, "is dead");
             data->death_count++;
+            pthread_mutex_unlock(&data->simulation_mutex);
 			return NULL ;
         }
         pthread_mutex_unlock(&data->meal_check_mutex);

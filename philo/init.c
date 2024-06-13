@@ -6,7 +6,7 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:33:09 by tguerran          #+#    #+#             */
-/*   Updated: 2024/06/11 19:34:54 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/06/13 16:44:39 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	init_data(t_data *data, int argc, char **argv)
 		i++;
 	}
 	pthread_mutex_init(&data->meal_check_mutex, NULL);
+	pthread_mutex_init(&data->simulation_mutex,NULL);
     data->simulation_running = 1;
     data->start_time = current_time_in_ms();
 }
@@ -51,6 +52,7 @@ void	init_philosophers(t_data *data)
 		data->philosophers[i].last_meal_time = current_time_in_ms();
 		data->philosophers[i].meals_eaten = 0;
 		data->philosophers[i].data = data;
+		pthread_mutex_init(&data->forks[i],NULL);
 		i++;
 	}
 }
