@@ -6,7 +6,7 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:36:08 by tguerran          #+#    #+#             */
-/*   Updated: 2024/06/13 16:40:25 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/06/18 15:03:20 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,12 @@ struct s_data
 	int number_of_times_each_philosopher_must_eat;
 	t_philosopher *philosophers;
 	pthread_mutex_t	*forks;
-	pthread_mutex_t meal_check_mutex;
+	pthread_mutex_t eat_mutex;
 	pthread_mutex_t	simulation_mutex;
 	long long start_time;
 	int simulation_running;
 	int		death_count;
+	int philo_eat;
 };
 
 int			check_error(int argc, char *argv[]);
