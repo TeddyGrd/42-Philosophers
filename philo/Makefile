@@ -6,7 +6,7 @@
 #    By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/27 14:40:02 by tguerran          #+#    #+#              #
-#    Updated: 2024/06/12 15:26:56 by tguerran         ###   ########.fr        #
+#    Updated: 2024/06/19 00:23:21 by tguerran         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,9 @@ SRC = philo.c \
 		utils/utils2.c \
 		free.c \
 		parse.c \
-		utils/utils3.c
+		utils/utils3.c \
+		main.c \
+		routine.c
 		
 
 OFILES = $(SRC:.c=.o)

@@ -6,7 +6,7 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 21:24:59 by tguerran          #+#    #+#             */
-/*   Updated: 2024/06/11 13:58:25 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/06/18 19:28:07 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,27 @@ char	*ft_strcat(char *dest, const char *src)
 	}
 	*ptr = '\0';
 	return (dest);
+}
+
+long long current_time_in_ms(void)
+{
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    return (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
+}
+
+void print_state(t_philosopher *philosopher, const char *state)
+{
+    long long timestamp = current_time_in_ms() - philosopher->data->simulation_start;
+    printf("%lld %d %s\n", timestamp, philosopher->id, state);
+}
+
+int	ft_usleep(long int time)
+{
+	long int	start_time;
+
+	start_time = current_time_in_ms();
+	while ((current_time_in_ms() - start_time) < time)
+		usleep(150);
+	return (1);
 }
