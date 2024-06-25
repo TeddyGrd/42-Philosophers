@@ -6,7 +6,7 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:11:25 by tguerran          #+#    #+#             */
-/*   Updated: 2024/06/11 17:11:55 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/06/25 14:16:13 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,7 @@ int	number_error(char *argv[], int i)
 	return (1);
 }
 
-
-int error_test(char *argv[])
+int	error_test(char *argv[])
 {
 	if (ft_atoi(argv[1]) > 200)
 		return (1);
@@ -76,7 +75,7 @@ int	check_error(int argc, char *argv[])
 	i = 0;
 	if (f_space(argv) == 1)
 		return (1);
-	if(error_test(argv) == 1)
+	if (error_test(argv) == 1)
 		return (1);
 	numbers = parse_arguments(&argc, argv);
 	while (i < argc)

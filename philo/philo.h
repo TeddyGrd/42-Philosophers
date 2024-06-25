@@ -6,37 +6,36 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:36:08 by tguerran          #+#    #+#             */
-/*   Updated: 2024/06/25 01:18:31 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/06/25 14:14:21 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
-#define PHILO_H
+# define PHILO_H
 
-#include <unistd.h>
-#include <stdio.h>
-#include <pthread.h>
-#include <sys/time.h>
-#include <stdlib.h>
-#include <limits.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <pthread.h>
+# include <sys/time.h>
+# include <stdlib.h>
+# include <limits.h>
 
-typedef struct s_philosopher t_philosopher;
-typedef struct s_data t_data;
-
+typedef struct s_philosopher	t_philosopher;
+typedef struct s_data			t_data;
 
 struct s_data
 {
-	int number_of_philosophers;
-	int simulation_ready;
-	int	time_to_die;
-	int time_to_eat;
-	int	time_to_sleep;
-	int number_of_times_each_philosopher_must_eat;
-	int check_meal;
-	int simulation_over;
-	long int simulation_start;
+	int				number_of_philosophers;
+	int				simulation_ready;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				number_of_times_each_philosopher_must_eat;
+	int				check_meal;
+	int				simulation_over;
+	long int		simulation_start;
 	pthread_mutex_t	*fork;
-	pthread_mutex_t *death;
+	pthread_mutex_t	*death;
 };
 
 struct s_philosopher
@@ -56,7 +55,7 @@ int			check_error(int argc, char *argv[]);
 int			init_data(t_data *data, int argc, char **argv);
 int			init_philosophers(t_data *data, t_philosopher *philosophers);
 int			ft_atoi(const char *nptr);
-long long 	current_time_in_ms(void);
+long long	current_time_in_ms(void);
 int			check_error(int argc, char *argv[]);
 int			f_space(char **argv);
 size_t		ft_strlen(const char *s);

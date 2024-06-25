@@ -6,7 +6,7 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 21:24:59 by tguerran          #+#    #+#             */
-/*   Updated: 2024/06/24 21:45:45 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/06/25 14:19:45 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,17 +50,19 @@ char	*ft_strcat(char *dest, const char *src)
 	return (dest);
 }
 
-long long current_time_in_ms(void)
+long long	current_time_in_ms(void)
 {
-    struct timeval tv;
-    gettimeofday(&tv, NULL);
-    return (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
-void print_state(t_philosopher *philosopher, const char *state)
+void	print_state(t_philosopher *philosopher, const char *state)
 {
-    long long timestamp = current_time_in_ms() - philosopher->data->simulation_start;
-    
+	long long	timestamp;
+
+	timestamp = current_time_in_ms() - philosopher->data->simulation_start;
 	pthread_mutex_lock(philosopher->data->death);
 	if (philosopher->data->simulation_over)
 	{

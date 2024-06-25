@@ -6,7 +6,7 @@
 #    By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/27 14:40:02 by tguerran          #+#    #+#              #
-#    Updated: 2024/06/19 00:23:21 by tguerran         ###   ########.fr        #
+#    Updated: 2024/06/25 16:48:28 by tguerran         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ OFILES = $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OFILES)
-	$(CC) $(CFLAGS) -o $(NAME) $(OFILES)
+	$(CC) $(CFLAGS) -o  $(NAME) $(OFILES)
 	
 clean:
 	rm -f $(OFILES)
