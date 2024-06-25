@@ -6,7 +6,7 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:33:09 by tguerran          #+#    #+#             */
-/*   Updated: 2024/06/19 02:11:02 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/06/25 02:13:18 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,16 @@ int	init_philosophers(t_data *data, t_philosopher *philosophers)
 	int i;
 
 	i = -1 ;
-	while(i < data->number_of_philosophers)
+	while(++i < data->number_of_philosophers)
 	{
 		philosophers[i].id = i;
 		philosophers[i].dead = 0;
-		philosophers[i].i = 0;
+		philosophers[i].iter = 0;
 		philosophers[i].thread_start = 0;
 		philosophers[i].last_meal_time = 0;
 		philosophers[i].data = data;
 		philosophers[i].left_fork = &data->fork[i];
 		philosophers[i].right_fork = 0;
-		i++;
 	}
 	return (0);
 }

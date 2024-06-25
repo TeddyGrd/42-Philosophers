@@ -6,7 +6,7 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:22:02 by tguerran          #+#    #+#             */
-/*   Updated: 2024/06/19 01:38:40 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/06/25 01:17:25 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	ft_eat(t_philosopher *philosopher)
 	philosopher->last_meal_time = current_time_in_ms();
 	ft_usleep(philosopher->data->time_to_eat);
 	print_state(philosopher, "is eating");
-	philosopher->i++;
+	philosopher->iter++;
 	pthread_mutex_unlock(philosopher->left_fork);
 	pthread_mutex_unlock(philosopher->right_fork);
 }

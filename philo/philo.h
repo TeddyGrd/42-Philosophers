@@ -6,7 +6,7 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:36:08 by tguerran          #+#    #+#             */
-/*   Updated: 2024/06/19 01:44:08 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/06/25 01:18:31 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ struct s_philosopher
 {
 	int					id;
 	int					dead;
-	int					i;
+	int					iter;
 	long int			last_meal_time;
 	long int			thread_start;
 	pthread_t			thread;
