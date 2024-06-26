@@ -6,11 +6,23 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 19:51:16 by tguerran          #+#    #+#             */
-/*   Updated: 2024/06/11 17:18:54 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/06/26 17:57:21 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
+
+int	check_parse(char **numbers)
+{
+	int		i;
+
+	i = 0;
+	while (numbers[i])
+		i++;
+	if (i > 5 || i <= 3)
+		return (0);
+	return (1);
+}
 
 int	f_space(char **argv)
 {

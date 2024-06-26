@@ -6,7 +6,7 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:48:32 by tguerran          #+#    #+#             */
-/*   Updated: 2024/06/25 14:28:46 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/06/26 17:11:37 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	main(int argc, char *argv[])
 {
 	t_data	data;
 
-	if (argc < 5)
+	if (argc != 2 && argc != 5 && argc != 6)
 		return (1);
 	if (check_error(argc, argv) == 1)
 		return (1);

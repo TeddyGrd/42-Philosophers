@@ -6,7 +6,7 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:33:09 by tguerran          #+#    #+#             */
-/*   Updated: 2024/06/25 13:57:45 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/06/26 17:56:20 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,22 +37,25 @@ int	init_mutex(t_data *data)
 
 int	init_data(t_data *data, int argc, char **argv)
 {
-	int	mutex;
+	int		mutex;
+	char	**numbers;
 
+	numbers = parse_arguments(&argc, argv);
 	mutex = -1;
-	data->number_of_philosophers = ft_atoi(argv[1]);
-	data->time_to_die = ft_atoi(argv[2]);
-	data->time_to_eat = ft_atoi(argv[3]);
-	data->time_to_sleep = ft_atoi(argv[4]);
+	data->number_of_philosophers = ft_atoi(numbers[0]);
+	data->time_to_die = ft_atoi(numbers[1]);
+	data->time_to_eat = ft_atoi(numbers[2]);
+	data->time_to_sleep = ft_atoi(numbers[3]);
 	data->simulation_start = 0;
 	data->simulation_ready = 0;
 	data->simulation_over = 0;
 	data->check_meal = 0;
-	if (argc == 6)
-		data->number_of_times_each_philosopher_must_eat = ft_atoi(argv[5]);
+	if (argc == 5 || numbers[4])
+		data->number_of_times_each_philosopher_must_eat = ft_atoi(numbers[4]);
 	else
 		data->number_of_times_each_philosopher_must_eat = -2;
 	mutex = init_mutex(data);
+	free_split(numbers);
 	return (mutex);
 }
 

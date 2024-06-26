@@ -6,7 +6,7 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:11:25 by tguerran          #+#    #+#             */
-/*   Updated: 2024/06/25 14:16:13 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/06/26 17:57:46 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,14 @@ int	number_error(char *argv[], int i)
 	return (1);
 }
 
-int	error_test(char *argv[])
+int	error_test(char **numbers)
 {
-	if (ft_atoi(argv[1]) > 200)
-		return (1);
-	if (ft_atoi(argv[2]) < 60 || ft_atoi(argv[3]) < 60 || ft_atoi(argv[4]) < 60)
-		return (1);
-	return (0);
+	if (ft_atoi(numbers[0]) > 200)
+		return (0);
+	if (ft_atoi(numbers[1]) < 60 || ft_atoi(numbers[2]) < 60
+		|| ft_atoi(numbers[3]) < 60)
+		return (0);
+	return (1);
 }
 
 int	check_error(int argc, char *argv[])
@@ -75,14 +76,14 @@ int	check_error(int argc, char *argv[])
 	i = 0;
 	if (f_space(argv) == 1)
 		return (1);
-	if (error_test(argv) == 1)
-		return (1);
 	numbers = parse_arguments(&argc, argv);
 	while (i < argc)
 	{
-		if (number_error(numbers, i) == 0)
+		if (number_error(numbers, i) == 0
+			|| check_parse(numbers) == 0 || ft_atoi(numbers[0]) <= 0
+			|| error_test(numbers) == 0)
 		{
-			printf("Error\n");
+			printf("Error argument\n");
 			free_split(numbers);
 			return (1);
 		}

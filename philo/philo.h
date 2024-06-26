@@ -6,7 +6,7 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:36:08 by tguerran          #+#    #+#             */
-/*   Updated: 2024/06/25 14:14:21 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/06/26 17:29:24 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ struct s_philosopher
 };
 
 int			check_error(int argc, char *argv[]);
+int			check_parse(char **numbers);
 int			init_data(t_data *data, int argc, char **argv);
 int			init_philosophers(t_data *data, t_philosopher *philosophers);
 int			ft_atoi(const char *nptr);
