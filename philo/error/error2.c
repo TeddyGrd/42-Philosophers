@@ -6,7 +6,7 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 19:51:16 by tguerran          #+#    #+#             */
-/*   Updated: 2024/06/26 17:57:21 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/06/27 15:52:03 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@ int	check_parse(char **numbers)
 		i++;
 	if (i > 5 || i <= 3)
 		return (0);
+	if (i <= 5)
+	{
+		if (ft_atoi(numbers[4]) <= 0)
+			return (0);
+	}
 	return (1);
 }
 
