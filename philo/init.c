@@ -6,7 +6,7 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:33:09 by tguerran          #+#    #+#             */
-/*   Updated: 2024/06/26 17:56:20 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/06/27 14:28:39 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ int	init_data(t_data *data, int argc, char **argv)
 	if (argc == 5 || numbers[4])
 		data->number_of_times_each_philosopher_must_eat = ft_atoi(numbers[4]);
 	else
+		data->number_of_times_each_philosopher_must_eat = -2;
+	if (data->number_of_times_each_philosopher_must_eat == 0)
 		data->number_of_times_each_philosopher_must_eat = -2;
 	mutex = init_mutex(data);
 	free_split(numbers);
