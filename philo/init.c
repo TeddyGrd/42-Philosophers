@@ -6,7 +6,7 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:33:09 by tguerran          #+#    #+#             */
-/*   Updated: 2024/06/27 15:40:41 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/07/05 00:38:11 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	init_data(t_data *data, int argc, char **argv)
 	data->time_to_eat = ft_atoi(numbers[2]);
 	data->time_to_sleep = ft_atoi(numbers[3]);
 	data->simulation_start = 0;
+	pthread_mutex_init(&data->simulation_mutex, NULL);
 	data->simulation_ready = 0;
 	data->simulation_over = 0;
 	data->check_meal = 0;

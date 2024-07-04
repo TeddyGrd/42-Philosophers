@@ -6,7 +6,7 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:22:02 by tguerran          #+#    #+#             */
-/*   Updated: 2024/06/25 15:10:30 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/07/05 01:18:19 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,27 @@ void	ft_eat(t_philosopher *philosopher)
 void	*thread_routine(void *t)
 {
 	t_philosopher	*philo;
+	int				simulation_ready;
+	int				simulation_over;
 
 	philo = (t_philosopher *)t;
-	while (!philo->data->simulation_ready)
-		continue ;
+	while (1)
+	{
+		pthread_mutex_lock(&philo->data->simulation_mutex);
+		simulation_ready = philo->data->simulation_ready;
+		pthread_mutex_unlock(&philo->data->simulation_mutex);
+		if (simulation_ready)
+			break ;
+	}
 	if (philo->id & 1)
 		ft_usleep(philo->data->time_to_eat * 0.9 + 1);
-	while (!philo->data->simulation_over)
+	while (1)
 	{
+		pthread_mutex_lock(&philo->data->simulation_mutex);
+		simulation_over = philo->data->simulation_over;
+		pthread_mutex_unlock(&philo->data->simulation_mutex);
+		if (simulation_over)
+			break ;
 		ft_eat(philo);
 		ft_sleep_and_think(philo);
 	}

@@ -6,7 +6,7 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:36:23 by tguerran          #+#    #+#             */
-/*   Updated: 2024/06/25 14:29:05 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/07/05 01:18:59 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,9 @@ int	init_thread(t_data *data, t_philosopher *philo)
 		philo[i].thread_start = data->simulation_start;
 		philo[i].last_meal_time = data->simulation_start;
 	}
+	pthread_mutex_lock(&data->simulation_mutex);
 	data->simulation_ready = 1;
+	pthread_mutex_unlock(&data->simulation_mutex);
 	return (0);
 }
 
