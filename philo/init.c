@@ -6,7 +6,7 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:33:09 by tguerran          #+#    #+#             */
-/*   Updated: 2024/07/05 00:38:11 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/07/05 03:30:54 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,10 @@ int	init_philosophers(t_data *data, t_philosopher *philosophers)
 		philosophers[i].data = data;
 		philosophers[i].left_fork = &data->fork[i];
 		philosophers[i].right_fork = 0;
+		pthread_mutex_init(&philosophers->mutex_iter, NULL);
+		pthread_mutex_init(&philosophers->mutex_last_meal, NULL);
+		philosophers[i].iter_mutex_locked = 0;
+		philosophers[i].last_meal_mutex_locked = 0;
 	}
 	return (0);
 }

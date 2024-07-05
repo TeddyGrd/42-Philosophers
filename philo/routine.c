@@ -6,7 +6,7 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:22:02 by tguerran          #+#    #+#             */
-/*   Updated: 2024/07/05 01:18:19 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/07/05 03:35:29 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ int	check_death(t_philosopher *philosopher)
 	long int	now;
 
 	pthread_mutex_lock(philosopher->data->death);
+	pthread_mutex_lock(&philosopher->mutex_last_meal);
 	now = current_time_in_ms() - philosopher->last_meal_time;
+	pthread_mutex_unlock(&philosopher->mutex_last_meal);
 	if (now >= philosopher->data->time_to_die)
 	{
 		pthread_mutex_unlock(philosopher->data->death);
@@ -50,12 +52,16 @@ void	ft_eat(t_philosopher *philosopher)
 	print_state(philosopher, "has taken a fork");
 	pthread_mutex_lock(philosopher->right_fork);
 	print_state(philosopher, "has taken a fork");
+	pthread_mutex_lock(&philosopher->mutex_last_meal);
 	philosopher->last_meal_time = current_time_in_ms();
-	ft_usleep(philosopher->data->time_to_eat);
+	pthread_mutex_unlock(&philosopher->mutex_last_meal);
 	print_state(philosopher, "is eating");
+	ft_usleep(philosopher->data->time_to_eat);
+	pthread_mutex_lock(&philosopher->mutex_iter);
 	philosopher->iter++;
-	pthread_mutex_unlock(philosopher->left_fork);
+	pthread_mutex_unlock(&philosopher->mutex_iter);
 	pthread_mutex_unlock(philosopher->right_fork);
+	pthread_mutex_unlock(philosopher->left_fork);
 }
 
 void	*thread_routine(void *t)

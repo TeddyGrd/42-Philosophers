@@ -6,7 +6,7 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:36:08 by tguerran          #+#    #+#             */
-/*   Updated: 2024/07/05 01:16:11 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/07/05 03:12:59 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,14 @@ struct s_philosopher
 	int					dead;
 	int					iter;
 	long int			last_meal_time;
+	int					last_meal_mutex_locked;
 	long int			thread_start;
+	int					iter_mutex_locked;
 	pthread_t			thread;
 	pthread_mutex_t		*left_fork;
 	pthread_mutex_t		*right_fork;
+	pthread_mutex_t 	mutex_iter;
+	pthread_mutex_t		mutex_last_meal;
 	t_data				*data;
 };
 

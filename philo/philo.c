@@ -6,11 +6,26 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:36:23 by tguerran          #+#    #+#             */
-/*   Updated: 2024/07/05 01:18:59 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/07/05 03:33:58 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	lock_iter_mutex(t_philosopher *philo)
+{
+	pthread_mutex_lock(&philo->mutex_iter);
+	philo->iter_mutex_locked = 1;
+}
+
+void	unlock_iter_mutex(t_philosopher *philo)
+{
+	if (philo->iter_mutex_locked)
+	{
+		pthread_mutex_unlock(&philo->mutex_iter);
+		philo->iter_mutex_locked = 0;
+	}
+}
 
 int	check_meals(t_philosopher philo, int last)
 {
@@ -22,7 +37,7 @@ int	check_meals(t_philosopher philo, int last)
 
 void	check_thread(t_data *data, t_philosopher *philo)
 {
-	int	i;
+	int		i;
 
 	while (!data->simulation_ready)
 		continue ;
@@ -30,18 +45,27 @@ void	check_thread(t_data *data, t_philosopher *philo)
 	{
 		i = -1;
 		while (++i < data->number_of_philosophers)
+		{
 			if (check_death(&philo[i]) || check_meals(philo[i], i) != 0)
+			{
+				pthread_mutex_lock(philo->data->death);
 				data->simulation_over = 1;
+				pthread_mutex_unlock(philo->data->death);
+			}
+		}
 	}
+	lock_iter_mutex(&philo[data->number_of_philosophers - 1]);
 	if (philo[data->number_of_philosophers - 1].iter
 		== data->number_of_times_each_philosopher_must_eat)
 	{
+		unlock_iter_mutex(&philo[data->number_of_philosophers - 1]);
 		ft_usleep(5 * data->number_of_philosophers);
-		printf("						\n");
+		printf("                        \n");
 		printf("All philosophers have eaten %d times \n",
 			data->number_of_times_each_philosopher_must_eat);
 		return ;
 	}
+	unlock_iter_mutex(&philo[data->number_of_philosophers - 1]);
 	return ;
 }
 
