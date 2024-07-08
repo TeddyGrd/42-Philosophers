@@ -6,7 +6,7 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:36:23 by tguerran          #+#    #+#             */
-/*   Updated: 2024/07/09 00:15:24 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/07/09 00:49:26 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,25 +44,25 @@ void check_thread(t_data *data, t_philosopher *philo)
 
     while (1)
     {
-        pthread_mutex_lock(&data->simulation_over_mutex);  // Verrouillage du mutex simulation_over
+        pthread_mutex_lock(&data->simulation_over_mutex);
         if (data->simulation_over)
         {
-            pthread_mutex_unlock(&data->simulation_over_mutex);  // Déverrouillage du mutex simulation_over
+            pthread_mutex_unlock(&data->simulation_over_mutex);
             break;
         }
 
-        pthread_mutex_lock(&data->simulation_mutex);  // Verrouillage du mutex simulation
+        pthread_mutex_lock(&data->simulation_mutex);
         if (data->number_of_times_each_philosopher_must_eat != -1 &&
             data->check_meal >= data->number_of_philosophers)
         {
             data->simulation_over = 1;
             printf("All philosophers have eaten %d times\n", data->number_of_times_each_philosopher_must_eat);
-            pthread_mutex_unlock(&data->simulation_mutex);  // Déverrouillage du mutex simulation
-            pthread_mutex_unlock(&data->simulation_over_mutex);  // Déverrouillage du mutex simulation_over
+            pthread_mutex_unlock(&data->simulation_mutex);
+            pthread_mutex_unlock(&data->simulation_over_mutex);
             break;
         }
-        pthread_mutex_unlock(&data->simulation_mutex);  // Déverrouillage du mutex simulation
-        pthread_mutex_unlock(&data->simulation_over_mutex);  // Déverrouillage du mutex simulation_over
+        pthread_mutex_unlock(&data->simulation_mutex);
+        pthread_mutex_unlock(&data->simulation_over_mutex);
 
         i = -1;
         while (++i < data->number_of_philosophers)
@@ -70,15 +70,18 @@ void check_thread(t_data *data, t_philosopher *philo)
             if (check_death(&philo[i]))
             {
                 pthread_mutex_lock(data->death);
-                pthread_mutex_lock(&data->simulation_over_mutex);  // Verrouillage du mutex simulation_over
+                pthread_mutex_lock(&data->simulation_over_mutex);
                 data->simulation_over = 1;
-                pthread_mutex_unlock(&data->simulation_over_mutex);  // Déverrouillage du mutex simulation_over
+                pthread_mutex_unlock(&data->simulation_over_mutex);
                 pthread_mutex_unlock(data->death);
                 break;
             }
         }
+        ft_usleep(1);  // Petite pause pour éviter la boucle infinie
     }
 }
+
+
 
 
 
@@ -108,19 +111,31 @@ int	init_thread(t_data *data, t_philosopher *philo)
 	return (0);
 }
 
-void	end_thread(t_data *data, t_philosopher *philo)
+void end_thread(t_data *data, t_philosopher *philo)
 {
-	int	i;
+    int i;
 
-	i = -1;
-	while (++i < data->number_of_philosophers)
-		pthread_join(philo[i].thread, (void *)&philo[i]);
-	pthread_mutex_destroy(data->death);
-	pthread_mutex_destroy(data->fork);
-	free(data->death);
-	free(data->fork);
-	free(philo);
+    i = -1;
+    while (++i < data->number_of_philosophers)
+    {
+        pthread_join(philo[i].thread, NULL);
+        pthread_mutex_destroy(&philo[i].mutex_iter);
+        pthread_mutex_destroy(&philo[i].mutex_last_meal);
+        pthread_mutex_destroy(&philo[i].mutex_state);  // Destruction du mutex d'état
+    }
+    i = -1;
+    while (++i < data->number_of_philosophers)
+    {
+        pthread_mutex_destroy(&data->fork[i]);  // Destruction des mutex des fourchettes
+    }
+    pthread_mutex_destroy(data->death);  // Destruction du mutex death
+    pthread_mutex_destroy(&data->simulation_mutex);  // Destruction du mutex simulation
+    pthread_mutex_destroy(&data->simulation_over_mutex);  // Destruction du mutex simulation_over
+    free(data->death);
+    free(data->fork);
+    free(philo);
 }
+
 
 int	philosophers(t_data *data)
 {
