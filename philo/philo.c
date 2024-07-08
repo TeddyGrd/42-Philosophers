@@ -6,7 +6,7 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:36:23 by tguerran          #+#    #+#             */
-/*   Updated: 2024/07/05 03:33:58 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/07/09 00:15:24 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,39 +35,52 @@ int	check_meals(t_philosopher philo, int last)
 	return (0);
 }
 
-void	check_thread(t_data *data, t_philosopher *philo)
+void check_thread(t_data *data, t_philosopher *philo)
 {
-	int		i;
+    int i;
 
-	while (!data->simulation_ready)
-		continue ;
-	while (!data->simulation_over)
-	{
-		i = -1;
-		while (++i < data->number_of_philosophers)
-		{
-			if (check_death(&philo[i]) || check_meals(philo[i], i) != 0)
-			{
-				pthread_mutex_lock(philo->data->death);
-				data->simulation_over = 1;
-				pthread_mutex_unlock(philo->data->death);
-			}
-		}
-	}
-	lock_iter_mutex(&philo[data->number_of_philosophers - 1]);
-	if (philo[data->number_of_philosophers - 1].iter
-		== data->number_of_times_each_philosopher_must_eat)
-	{
-		unlock_iter_mutex(&philo[data->number_of_philosophers - 1]);
-		ft_usleep(5 * data->number_of_philosophers);
-		printf("                        \n");
-		printf("All philosophers have eaten %d times \n",
-			data->number_of_times_each_philosopher_must_eat);
-		return ;
-	}
-	unlock_iter_mutex(&philo[data->number_of_philosophers - 1]);
-	return ;
+    while (!data->simulation_ready)
+        continue;
+
+    while (1)
+    {
+        pthread_mutex_lock(&data->simulation_over_mutex);  // Verrouillage du mutex simulation_over
+        if (data->simulation_over)
+        {
+            pthread_mutex_unlock(&data->simulation_over_mutex);  // Déverrouillage du mutex simulation_over
+            break;
+        }
+
+        pthread_mutex_lock(&data->simulation_mutex);  // Verrouillage du mutex simulation
+        if (data->number_of_times_each_philosopher_must_eat != -1 &&
+            data->check_meal >= data->number_of_philosophers)
+        {
+            data->simulation_over = 1;
+            printf("All philosophers have eaten %d times\n", data->number_of_times_each_philosopher_must_eat);
+            pthread_mutex_unlock(&data->simulation_mutex);  // Déverrouillage du mutex simulation
+            pthread_mutex_unlock(&data->simulation_over_mutex);  // Déverrouillage du mutex simulation_over
+            break;
+        }
+        pthread_mutex_unlock(&data->simulation_mutex);  // Déverrouillage du mutex simulation
+        pthread_mutex_unlock(&data->simulation_over_mutex);  // Déverrouillage du mutex simulation_over
+
+        i = -1;
+        while (++i < data->number_of_philosophers)
+        {
+            if (check_death(&philo[i]))
+            {
+                pthread_mutex_lock(data->death);
+                pthread_mutex_lock(&data->simulation_over_mutex);  // Verrouillage du mutex simulation_over
+                data->simulation_over = 1;
+                pthread_mutex_unlock(&data->simulation_over_mutex);  // Déverrouillage du mutex simulation_over
+                pthread_mutex_unlock(data->death);
+                break;
+            }
+        }
+    }
 }
+
+
 
 int	init_thread(t_data *data, t_philosopher *philo)
 {
