@@ -6,7 +6,7 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:36:23 by tguerran          #+#    #+#             */
-/*   Updated: 2024/07/09 01:46:37 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/07/09 18:10:23 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	end_thread(t_data *data, t_philosopher *philo)
 	pthread_mutex_destroy(data->death);
 	pthread_mutex_destroy(&data->simulation_mutex);
 	pthread_mutex_destroy(&data->simulation_over_mutex);
+	pthread_mutex_destroy(&data->printf_mutex);
 	free(data->death);
 	free(data->fork);
 	free(philo);

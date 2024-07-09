@@ -6,7 +6,7 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:36:08 by tguerran          #+#    #+#             */
-/*   Updated: 2024/07/09 02:13:07 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/07/09 17:57:35 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ struct s_data
 	pthread_mutex_t	*death;
 	pthread_mutex_t	simulation_mutex;
 	pthread_mutex_t	simulation_over_mutex;
+	pthread_mutex_t	printf_mutex;
 };
 
 struct s_philosopher

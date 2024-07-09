@@ -6,7 +6,7 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 21:24:59 by tguerran          #+#    #+#             */
-/*   Updated: 2024/07/09 01:25:36 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/07/09 18:48:07 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,10 @@ void	print_state(t_philosopher *philosopher, const char *state)
 		return ;
 	}
 	pthread_mutex_unlock(&philosopher->data->simulation_over_mutex);
+	pthread_mutex_lock(&philosopher->data->printf_mutex);
 	timestamp = current_time_in_ms() - philosopher->data->simulation_start;
 	printf("%lld %d %s\n", timestamp, philosopher->id + 1, state);
+	pthread_mutex_unlock(&philosopher->data->printf_mutex);
 }
 
 int	ft_usleep(long int time)
