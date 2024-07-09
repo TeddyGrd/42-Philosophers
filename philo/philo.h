@@ -6,7 +6,7 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:36:08 by tguerran          #+#    #+#             */
-/*   Updated: 2024/07/08 23:53:59 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/07/09 02:13:07 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ struct s_data
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	*death;
 	pthread_mutex_t	simulation_mutex;
-	pthread_mutex_t	simulation_over_mutex;  // Ajout du mutex
+	pthread_mutex_t	simulation_over_mutex;
 };
 
 struct s_philosopher
@@ -52,7 +52,7 @@ struct s_philosopher
 	pthread_t			thread;
 	pthread_mutex_t		*left_fork;
 	pthread_mutex_t		*right_fork;
-	pthread_mutex_t 	mutex_iter;
+	pthread_mutex_t		mutex_iter;
 	pthread_mutex_t		mutex_last_meal;
 	pthread_mutex_t		mutex_state;
 	t_data				*data;
@@ -81,5 +81,8 @@ int			check_death(t_philosopher *philosopher);
 int			init_thread(t_data *data, t_philosopher *philosopher);
 int			init_mutex(t_data *data);
 int			philosophers(t_data *data);
+void		check_thread(t_data *data, t_philosopher *philo);
+void		ft_eat(t_philosopher *philosopher);
+void		ft_sleep_and_think(t_philosopher *philosopher);
 
 #endif

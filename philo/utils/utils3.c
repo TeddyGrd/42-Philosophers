@@ -6,7 +6,7 @@
 /*   By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 21:24:59 by tguerran          #+#    #+#             */
-/*   Updated: 2024/07/09 00:50:34 by tguerran         ###   ########.fr       */
+/*   Updated: 2024/07/09 01:25:36 by tguerran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,22 +58,20 @@ long long	current_time_in_ms(void)
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
-void print_state(t_philosopher *philosopher, const char *state)
+void	print_state(t_philosopher *philosopher, const char *state)
 {
-    long long timestamp;
+	long long	timestamp;
 
-    pthread_mutex_lock(&philosopher->data->simulation_over_mutex);  // Verrouillage du mutex simulation_over
-    if (philosopher->data->simulation_over)
-    {
-        pthread_mutex_unlock(&philosopher->data->simulation_over_mutex);  // Déverrouillage du mutex simulation_over
-        return;
-    }
-    pthread_mutex_unlock(&philosopher->data->simulation_over_mutex);  // Déverrouillage du mutex simulation_over
-
-    timestamp = current_time_in_ms() - philosopher->data->simulation_start;
-    printf("%lld %d %s\n", timestamp, philosopher->id + 1, state);
+	pthread_mutex_lock(&philosopher->data->simulation_over_mutex);
+	if (philosopher->data->simulation_over)
+	{
+		pthread_mutex_unlock(&philosopher->data->simulation_over_mutex);
+		return ;
+	}
+	pthread_mutex_unlock(&philosopher->data->simulation_over_mutex);
+	timestamp = current_time_in_ms() - philosopher->data->simulation_start;
+	printf("%lld %d %s\n", timestamp, philosopher->id + 1, state);
 }
-
 
 int	ft_usleep(long int time)
 {
