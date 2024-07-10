@@ -6,14 +6,14 @@
 #    By: tguerran <tguerran@student.42lehavre.fr    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/27 14:40:02 by tguerran          #+#    #+#              #
-#    Updated: 2024/07/09 18:45:56 by tguerran         ###   ########.fr        #
+#    Updated: 2024/07/10 12:42:41 by tguerran         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -fsanitize=thread
+CFLAGS = -Wall -Werror -Wextra #-fsanitize=thread
 
 SRC = philo.c \
 		utils/utils.c \
